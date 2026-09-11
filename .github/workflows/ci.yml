@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-analyze:
+    name: Build, test and analyze
+    runs-on: ubuntu-latest
+
+    # Job-level env so the step-level "if" guard can see SONAR_TOKEN.
+    # On fork pull requests the secret resolves to an empty string.
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # Full history is required for SonarCloud new-code analysis.
+          fetch-depth: 0
+
+      - name: Set up JDK 26
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '26'
+          cache: maven
+
+      - name: Build and run tests with JaCoCo
+        # Stops at the test phase on purpose: verify/package trigger GPG signing
+        # and shading, which are only meant for release builds. JaCoCo's report
+        # goal is bound to the test phase and produces target/site/jacoco/jacoco.xml.
+        run: mvn --batch-mode --no-transfer-progress -Psonar test
+
+      - name: SonarCloud analysis
+        # Fork pull requests do not have access to repository secrets; the scan
+        # is skipped automatically when SONAR_TOKEN is absent.
+        if: ${{ env.SONAR_TOKEN != '' }}
+        run: >
+          mvn --batch-mode --no-transfer-progress -Psonar sonar:sonar
+          -Dsonar.token=${SONAR_TOKEN}
+
+      - name: Upload JaCoCo report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+          if-no-files-found: error
+
+      - name: Upload Surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          if-no-files-found: warn
