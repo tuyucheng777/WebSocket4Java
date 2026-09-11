@@ -124,6 +124,16 @@ class HandshakerTest {
     }
 
     @Test
+    void upgradeResponseRejectsMissingKeyWithoutPriorValidation() {
+        HttpRequest request = new HttpRequest("GET", "/echo", "/echo", Map.of(),
+                Map.of("Upgrade", List.of("websocket")));
+
+        HandshakeException e = assertThrows(HandshakeException.class,
+                () -> Handshaker.upgradeResponse(request));
+        assertEquals(400, e.httpStatus());
+    }
+
+    @Test
     void buildsErrorResponse() {
         byte[] response = Handshaker.errorResponse(404, "Not Found");
         String text = new String(response, StandardCharsets.ISO_8859_1);

@@ -95,7 +95,11 @@ public final class Handshaker {
     /// @return response bytes ready to be written back to the client
     /// @throws HandshakeException if the request is invalid (theoretically {@link #validate} has already rejected it)
     public static byte[] upgradeResponse(HttpRequest request) throws HandshakeException {
-        String key = request.header("Sec-WebSocket-Key").trim();
+        String keyHeader = request.header("Sec-WebSocket-Key");
+        if (keyHeader == null) {
+            throw new HandshakeException(400, "missing Sec-WebSocket-Key header");
+        }
+        String key = keyHeader.trim();
         String accept = acceptKey(key);
         return ("HTTP/1.1 101 Switching Protocols\r\n"
                 + "Upgrade: websocket\r\n"
