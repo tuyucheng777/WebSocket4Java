@@ -53,29 +53,26 @@ import io.github.tuyucheng777.websocket.WebSocketHandler;
 import io.github.tuyucheng777.websocket.WebSocketServer;
 import io.github.tuyucheng777.websocket.WebSocketSession;
 
-public class EchoServer {
+void main() throws Exception {
+    WebSocketServer server = WebSocketServer.builder()
+            .host("0.0.0.0")
+            .port(8080)
+            .path("/echo", new WebSocketHandler() {
+                @Override
+                public void onTextMessage(WebSocketSession session, String message) {
+                    session.sendText(message);
+                }
 
-    public static void main(String[] args) throws Exception {
-        WebSocketServer server = WebSocketServer.builder()
-                .host("0.0.0.0")
-                .port(8080)
-                .path("/echo", new WebSocketHandler() {
-                    @Override
-                    public void onTextMessage(WebSocketSession session, String message) {
-                        session.sendText(message);
-                    }
+                @Override
+                public void onBinaryMessage(WebSocketSession session,
+                                            java.nio.ByteBuffer payload) {
+                    session.sendBinary(payload);
+                }
+            })
+            .build();
 
-                    @Override
-                    public void onBinaryMessage(WebSocketSession session,
-                                                java.nio.ByteBuffer payload) {
-                        session.sendBinary(payload);
-                    }
-                })
-                .build();
-
-        server.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(server::close));
-    }
+    server.start();
+    Runtime.getRuntime().addShutdownHook(new Thread(server::close));
 }
 ```
 
@@ -164,17 +161,3 @@ src/main/java/io/github/tuyucheng777/websocket/
 ```
 
 Threading model: a single daemon thread named `websocket-nio` performs all I/O; each connection owns a virtual thread named `ws-session-{id}` that runs business callbacks serially; events flow between the reactor and virtual threads through bounded event queues, while outbound writes are driven through the per-connection queue and `Selector.wakeup()`.
-
-## Build and Test
-
-Compile and run all tests (110 in total, comprising 72 pure unit tests and 38 end-to-end integration tests):
-
-```bash
-mvn test
-```
-
-Package only:
-
-```bash
-mvn package
-```
