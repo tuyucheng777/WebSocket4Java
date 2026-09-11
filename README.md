@@ -9,7 +9,6 @@
   <a href="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml"><img src="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/new_code?id=tuyucheng777_WebSocket4Java"><img src="https://sonarcloud.io/api/project_badges/measure?project=tuyucheng777_WebSocket4Java&metric=coverage" alt="Coverage"></a>
   <img src="https://img.shields.io/badge/Java-26%2B-ED8B00?logo=openjdk&logoColor=white" alt="Java 26+">
-  <img src="https://img.shields.io/badge/Maven-3.9%2B-C71A36?logo=apachemaven&logoColor=white" alt="Maven 3.9+">
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-green" alt="License: MIT"></a>
 </p>
 
