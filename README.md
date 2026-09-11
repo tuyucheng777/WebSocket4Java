@@ -6,9 +6,10 @@
 
 <p align="center">
   <a href="https://central.sonatype.com/artifact/io.github.tuyucheng777/WebSocket4Java"><img src="https://img.shields.io/maven-central/v/io.github.tuyucheng777/WebSocket4Java?logo=apachemaven&color=blue" alt="Maven Central"></a>
+  <a href="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml"><img src="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=tuyucheng777_WebSocket4Java"><img src="https://sonarcloud.io/api/project_badges/measure?project=tuyucheng777_WebSocket4Java&metric=coverage" alt="Coverage"></a>
   <img src="https://img.shields.io/badge/Java-26%2B-ED8B00?logo=openjdk&logoColor=white" alt="Java 26+">
   <img src="https://img.shields.io/badge/Maven-3.9%2B-C71A36?logo=apachemaven&logoColor=white" alt="Maven 3.9+">
-  <img src="https://img.shields.io/badge/coverage-82%25%20lines-yellowgreen" alt="Coverage: 82% lines">
   <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-green" alt="License: MIT"></a>
 </p>
 
@@ -178,5 +179,3 @@ Package only:
 ```bash
 mvn package
 ```
-
-The integration tests use a zero-dependency test client written with JDK blocking I/O and cover: text/binary/Unicode echo, 1 MB large messages, bidirectional fragmentation, Ping/Pong, path variables and query parameters, 200 concurrent virtual-thread clients, broadcast, bidirectional close handshake, protocol-violation closures (1002/1007/1009), abnormal disconnects (1006), handshake rejections (400/404/426), and high-volume backpressure send/receive.
