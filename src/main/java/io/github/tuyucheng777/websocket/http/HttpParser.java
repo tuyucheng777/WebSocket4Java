@@ -1,6 +1,9 @@
 package io.github.tuyucheng777.websocket.http;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +47,7 @@ public final class HttpParser {
     /// @return the parsed request
     /// @throws HandshakeException if the request format is invalid
     public static HttpRequest parse(byte[] data, int length) throws HandshakeException {
-        String raw = new String(data, 0, length, java.nio.charset.StandardCharsets.ISO_8859_1);
+        String raw = new String(data, 0, length, StandardCharsets.ISO_8859_1);
         String[] lines = raw.split("\r\n", -1);
         if (lines.length == 0 || lines[0].isEmpty()) {
             throw new HandshakeException(400, "empty HTTP request");
@@ -82,7 +85,7 @@ public final class HttpParser {
             if (name.isEmpty()) {
                 throw new HandshakeException(400, "empty header name");
             }
-            headers.computeIfAbsent(name, key -> new ArrayList<>()).add(value);
+            headers.computeIfAbsent(name, _ -> new ArrayList<>()).add(value);
         }
 
         int question = target.indexOf('?');
@@ -90,10 +93,9 @@ public final class HttpParser {
         String queryString = question < 0 ? "" : target.substring(question + 1);
         Map<String, String> queryParameters = parseQuery(queryString);
 
-        Map<String, List<String>> immutableHeaders =
-                java.util.Collections.unmodifiableMap(headers);
+        Map<String, List<String>> immutableHeaders = Collections.unmodifiableMap(headers);
         return new HttpRequest(method, target, path,
-                java.util.Collections.unmodifiableMap(queryParameters), immutableHeaders);
+                Collections.unmodifiableMap(queryParameters), immutableHeaders);
     }
 
     private static Map<String, String> parseQuery(String queryString) throws HandshakeException {
@@ -122,7 +124,7 @@ public final class HttpParser {
             return value;
         }
         StringBuilder builder = new StringBuilder(value.length());
-        java.io.ByteArrayOutputStream bytes = new java.io.ByteArrayOutputStream();
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         for (int i = 0; i < value.length(); ) {
             char c = value.charAt(i);
             if (c == '%') {
@@ -146,9 +148,9 @@ public final class HttpParser {
         return builder.toString();
     }
 
-    private static void flushEscaped(StringBuilder builder, java.io.ByteArrayOutputStream bytes) {
+    private static void flushEscaped(StringBuilder builder, ByteArrayOutputStream bytes) {
         if (bytes.size() > 0) {
-            builder.append(bytes.toString(java.nio.charset.StandardCharsets.UTF_8));
+            builder.append(bytes.toString(StandardCharsets.UTF_8));
             bytes.reset();
         }
     }
