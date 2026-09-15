@@ -26,7 +26,7 @@
     </developers>
 
     <properties>
-        <maven.compiler.release>26</maven.compiler.release>
+        <maven.compiler.release>27</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.14.4</junit.version>
         <jacoco.version>0.8.15</jacoco.version>
@@ -77,7 +77,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.16.0</version>
                 <configuration>
-                    <release>26</release>
+                    <release>27</release>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
