@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.tuyucheng777</groupId>
     <artifactId>WebSocket4Java</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>WebSocket4Java</name>
     <description>High-performance WebSocket framework based on JDK NIO and virtual threads, with zero third-party dependencies at runtime</description>
