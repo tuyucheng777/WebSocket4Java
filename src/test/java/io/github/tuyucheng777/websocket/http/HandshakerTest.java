@@ -139,7 +139,12 @@ class HandshakerTest {
         String text = new String(response, StandardCharsets.ISO_8859_1);
 
         assertTrue(text.startsWith("HTTP/1.1 404 Not Found\r\n"));
-        assertTrue(text.contains("Content-Length: "));
         assertTrue(text.contains("Connection: close\r\n"));
+
+        int bodyStart = text.indexOf("\r\n\r\n");
+        assertTrue(bodyStart >= 0);
+        String body = text.substring(bodyStart + 4);
+        assertEquals("Not Found\n", body);
+        assertTrue(text.contains("Content-Length: " + body.getBytes(StandardCharsets.UTF_8).length + "\r\n"));
     }
 }

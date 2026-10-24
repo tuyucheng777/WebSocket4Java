@@ -114,12 +114,15 @@ public final class Handshaker {
     /// @param reason     reason phrase
     /// @return response bytes ready to be written back to the client
     public static byte[] errorResponse(int statusCode, String reason) {
-        String body = reason + "\n";
-        byte[] bodyBytes = body.getBytes(StandardCharsets.UTF_8);
-        return ("HTTP/1.1 " + statusCode + " " + reason + "\r\n"
+        byte[] bodyBytes = (reason + "\n").getBytes(StandardCharsets.UTF_8);
+        byte[] headerBytes = ("HTTP/1.1 " + statusCode + " " + reason + "\r\n"
                 + "Content-Type: text/plain; charset=utf-8\r\n"
                 + "Content-Length: " + bodyBytes.length + "\r\n"
                 + "Connection: close\r\n"
                 + "\r\n").getBytes(StandardCharsets.ISO_8859_1);
+        byte[] response = new byte[headerBytes.length + bodyBytes.length];
+        System.arraycopy(headerBytes, 0, response, 0, headerBytes.length);
+        System.arraycopy(bodyBytes, 0, response, headerBytes.length, bodyBytes.length);
+        return response;
     }
 }
