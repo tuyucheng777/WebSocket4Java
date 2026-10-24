@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +18,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /// End-to-end rejection tests for illegal protocol data and invalid handshakes.
 class ProtocolViolationIntegrationTest {
@@ -30,7 +30,8 @@ class ProtocolViolationIntegrationTest {
         server = WebSocketServer.builder()
                 .port(0)
                 .maxFramePayloadSize(1_024)
-                .path("/echo", new WebSocketHandler() { })
+                .path("/echo", new WebSocketHandler() {
+                })
                 .build();
         try {
             server.start();
@@ -118,11 +119,13 @@ class ProtocolViolationIntegrationTest {
                 "/missing", Map.of());
         String response = WsTestClient.readHead(socket.getInputStream());
         assertTrue(response.contains("Connection: close"));
-        // The server should close the TCP connection after writing the error response.
-        int next = socket.getInputStream().read();
-        if (next != -1) {
-            fail("expected closed connection but read byte: " + next);
+        // Drain the response body, then verify the server closed the TCP connection.
+        ByteArrayOutputStream body = new ByteArrayOutputStream();
+        int value;
+        while ((value = socket.getInputStream().read()) != -1) {
+            body.write(value);
         }
+        assertEquals("Not Found\n", body.toString(StandardCharsets.UTF_8));
         socket.close();
     }
 }
