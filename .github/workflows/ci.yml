@@ -23,11 +23,11 @@ jobs:
           # Full history is required for SonarCloud new-code analysis.
           fetch-depth: 0
 
-      - name: Set up JDK 26
+      - name: Set up JDK 27
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '26'
+          java-version: '27'
           cache: maven
 
       - name: Build and run tests with JaCoCo
