@@ -1,20 +1,7 @@
-<p align="center">
-  <img src="logo.jpg" alt="WebSocket4Java Logo" width="180">
-</p>
+<img src="logo.jpg" alt="WebSocket4Java Logo" width="100">
 
-<h1 align="center">WebSocket4Java</h1>
-
-<p align="center">
-  <a href="https://central.sonatype.com/artifact/io.github.tuyucheng777/WebSocket4Java"><img src="https://img.shields.io/maven-central/v/io.github.tuyucheng777/WebSocket4Java?logo=apachemaven&color=blue" alt="Maven Central"></a>
-  <a href="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml"><img src="https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://sonarcloud.io/summary/new_code?id=tuyucheng777_WebSocket4Java"><img src="https://sonarcloud.io/api/project_badges/measure?project=tuyucheng777_WebSocket4Java&metric=coverage" alt="Coverage"></a>
-  <img src="https://img.shields.io/badge/Java-26%2B-ED8B00?logo=openjdk&logoColor=white" alt="Java 26+">
-  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-green" alt="License: MIT"></a>
-</p>
-
-<p align="center">A high-performance WebSocket server framework built on JDK NIO and virtual threads, with a complete RFC 6455 implementation. The runtime code has zero third-party dependencies and uses only the JDK standard library. Java 26 or later is required.</p>
-
----
+# WebSocket4Java [![Maven Central](https://img.shields.io/maven-central/v/io.github.tuyucheng777/WebSocket4Java?logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tuyucheng777/WebSocket4Java) [![CI](https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml/badge.svg)](https://github.com/tuyucheng777/WebSocket4Java/actions/workflows/ci.yml) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=tuyucheng777_WebSocket4Java&metric=coverage)](https://sonarcloud.io/summary/new_code?id=tuyucheng777_WebSocket4Java) ![Java 26+](https://img.shields.io/badge/Java-26%2B-ED8B00?logo=openjdk&logoColor=white) [![License: MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/license/mit)
+A high-performance WebSocket server framework built on JDK NIO and virtual threads, with a complete RFC 6455 implementation. The runtime code has zero third-party dependencies and uses only the JDK standard library. Java 26 or later is required.
 
 ## Features
 
