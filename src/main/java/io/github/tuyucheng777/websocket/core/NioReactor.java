@@ -1,6 +1,7 @@
 package io.github.tuyucheng777.websocket.core;
 
 import java.io.IOException;
+import java.net.StandardSocketOptions;
 import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
@@ -149,8 +150,7 @@ public final class NioReactor {
                     }
                 }
             } catch (CancelledKeyException ignored) {
-                // The connection was closed during processing and the key has
-                // been cancelled.
+                // The connection was closed during processing and the key has been canceled.
             } catch (IOException e) {
                 if (key.attachment() instanceof Connection connection) {
                     connection.handleIoError(e);
@@ -164,7 +164,7 @@ public final class NioReactor {
         while ((channel = serverChannel.accept()) != null) {
             try {
                 channel.configureBlocking(false);
-                channel.setOption(java.net.StandardSocketOptions.TCP_NODELAY, true);
+                channel.setOption(StandardSocketOptions.TCP_NODELAY, true);
                 Connection connection = connectionFactory.create(channel);
                 SelectionKey key = channel.register(selector, SelectionKey.OP_READ, connection);
                 connection.attachKey(key);
